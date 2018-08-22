@@ -30,7 +30,6 @@
 @interface MBFingerTipWindow ()
 
 @property (nonatomic, strong) UIWindow *overlayWindow;
-@property (nonatomic, assign) BOOL active;
 @property (nonatomic, assign) BOOL fingerTipRemovalScheduled;
 
 - (void)scheduleFingerTipRemoval;
@@ -60,7 +59,7 @@
     self = [super initWithFrame:rect];
     self.strokeColor = [UIColor blackColor];
     self.fillColor = [UIColor whiteColor];
-
+    self.shouldShowTouches = NO;
     self.touchAlpha   = 0.5;
     self.fadeDuration = 0.3;
     
@@ -116,20 +115,12 @@
     return _touchImage;
 }
 
-#pragma mark - Setter
-
-- (void)shouldShowTouches:(BOOL)flag
-{
-		self.active = flag;
-
-}
-
 #pragma mark -
 #pragma mark UIWindow overrides
 
 - (void)sendEvent:(UIEvent *)event
 {
-    if (self.active)
+    if (self.shouldShowTouches)
     {
         NSSet *allTouches = [event allTouches];
         
